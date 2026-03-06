@@ -6,6 +6,8 @@ require __DIR__ . '/includes/bootstrap.php';
 
 $content = app_content();
 $home = $content['home'];
+$metaItems = active_items($home['meta_items']);
+$highlights = active_items($home['highlights']);
 
 render_header(
     'home',
@@ -21,7 +23,7 @@ render_header(
         <p class="lead"><?= h($home['hero_lead']) ?></p>
 
         <div class="meta-grid">
-            <?php foreach ($home['meta_items'] as $index => $item): ?>
+            <?php foreach ($metaItems as $index => $item): ?>
                 <article class="meta-item">
                     <div class="meta-head">
                         <span class="icon-chip" aria-hidden="true">
@@ -62,7 +64,7 @@ render_header(
     <div class="container">
         <h2 class="section-title">International readiness highlights</h2>
         <div class="feature-grid">
-            <?php foreach ($home['highlights'] as $index => $item): ?>
+            <?php foreach ($highlights as $index => $item): ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true">
                         <?php

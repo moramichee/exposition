@@ -6,6 +6,8 @@ require __DIR__ . '/includes/bootstrap.php';
 
 [$errors, $old, $status] = process_registration_form();
 $contact = app_content()['contact'];
+$channelCards = active_items($contact['channel_cards']);
+$termsCards = active_items($contact['terms_cards']);
 
 render_header('contact', 'Global Alliance Exhibition | Contact & Registration');
 ?>
@@ -15,7 +17,7 @@ render_header('contact', 'Global Alliance Exhibition | Contact & Registration');
         <h1 class="page-title">Registration and direct contact</h1>
 
         <div class="split">
-            <?php foreach ($contact['channel_cards'] as $item): ?>
+            <?php foreach ($channelCards as $item): ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true"><?= svg_icon('contact') ?></span>
                     <h2><?= h($item['title']) ?></h2>
@@ -29,7 +31,7 @@ render_header('contact', 'Global Alliance Exhibition | Contact & Registration');
                 </article>
             <?php endforeach; ?>
 
-            <?php foreach ($contact['terms_cards'] as $item): ?>
+            <?php foreach ($termsCards as $item): ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true"><?= svg_icon('calendar') ?></span>
                     <h2><?= h($item['title']) ?></h2>

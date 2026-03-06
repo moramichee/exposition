@@ -6,13 +6,48 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+function app_default_content(): array
+{
+    static $defaultContent = null;
+
+    if ($defaultContent === null) {
+        $defaultContent = require __DIR__ . '/../data/content.php';
+    }
+
+    return $defaultContent;
+}
+
+function content_storage_path(): string
+{
+    return __DIR__ . '/../storage/content.json';
+}
+
 function app_content(): array
 {
     static $content = null;
 
-    if ($content === null) {
-        $content = require __DIR__ . '/../data/content.php';
+    if ($content !== null) {
+        return $content;
     }
+
+    $content = app_default_content();
+    $storagePath = content_storage_path();
+
+    if (! is_file($storagePath)) {
+        return $content;
+    }
+
+    $json = file_get_contents($storagePath);
+    if ($json === false || trim($json) === '') {
+        return $content;
+    }
+
+    $decoded = json_decode($json, true);
+    if (! is_array($decoded)) {
+        return $content;
+    }
+
+    $content = $decoded;
 
     return $content;
 }
@@ -29,6 +64,19 @@ function h(?string $value): string
 
 function asset_url(string $path): string
 {
+    return h($path);
+}
+
+function public_image_url(?string $path): string
+{
+    if ($path === null || trim($path) === '') {
+        return 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80';
+    }
+
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+        return h($path);
+    }
+
     return h($path);
 }
 
@@ -138,7 +186,16 @@ function render_footer(): void
     echo '<a href="' . h(page_url('terms')) . '">Terms &amp; Conditions</a>';
     echo '<a href="' . h(page_url('cookies')) . '">Cookie Notice</a>';
     echo '<a href="' . h(page_url('copyright')) . '">Copyright</a>';
+    echo '<a href="admin/login.php">Admin</a>';
     echo '</nav></div></footer></body></html>';
+}
+
+function active_items(array $items): array
+{
+    return array_values(array_filter(
+        $items,
+        static fn (array $item): bool => ! array_key_exists('is_active', $item) || (bool) $item['is_active']
+    ));
 }
 
 function multiline_lines(?string $value): array

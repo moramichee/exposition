@@ -5,6 +5,8 @@ declare(strict_types=1);
 require __DIR__ . '/includes/bootstrap.php';
 
 $venue = app_content()['venue'];
+$infoCards = active_items($venue['info_cards']);
+$supportCards = active_items($venue['support_cards']);
 
 render_header('venue', 'Global Alliance Exhibition | Venue Information');
 ?>
@@ -14,7 +16,7 @@ render_header('venue', 'Global Alliance Exhibition | Venue Information');
         <h1 class="page-title">ExCel London Hotel, London</h1>
 
         <div class="split">
-            <?php foreach ($venue['info_cards'] as $index => $item): ?>
+            <?php foreach ($infoCards as $index => $item): ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true"><?= svg_icon($index % 2 === 0 ? 'location' : 'calendar') ?></span>
                     <h2><?= h($item['title']) ?></h2>
@@ -41,7 +43,7 @@ render_header('venue', 'Global Alliance Exhibition | Venue Information');
     <div class="container">
         <h2 class="section-title">Transport and accommodation support</h2>
         <div class="feature-grid">
-            <?php foreach ($venue['support_cards'] as $index => $item): ?>
+            <?php foreach ($supportCards as $index => $item): ?>
                 <article class="card">
                     <?php
                     $iconCycle = ['plane', 'hotel', 'pulse'];

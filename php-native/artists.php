@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/includes/bootstrap.php';
 
-$artists = app_content()['artists']['cards'];
+$artists = active_items(app_content()['artists']['cards']);
 
 render_header('artists', 'Global Alliance Exhibition | Artists & Exhibitors');
 ?>
@@ -19,7 +19,7 @@ render_header('artists', 'Global Alliance Exhibition | Artists & Exhibitors');
         <div class="artist-grid">
             <?php foreach ($artists as $item): ?>
                 <article class="artist-card">
-                    <img src="<?= h($item['image_path']) ?>" alt="<?= h($item['image_alt']) ?>">
+                    <img src="<?= public_image_url($item['image_path'] ?? null) ?>" alt="<?= h($item['image_alt'] ?? $item['title']) ?>">
                     <div>
                         <h2><?= h($item['title']) ?></h2>
                         <p class="muted line-icon"><?= svg_icon('location') ?><?= h($item['secondary_content']) ?></p>

@@ -5,6 +5,8 @@ declare(strict_types=1);
 require __DIR__ . '/includes/bootstrap.php';
 
 $about = app_content()['about'];
+$missionCards = active_items($about['mission_cards']);
+$biographyCards = active_items($about['biography_cards']);
 
 render_header('about', 'Global Alliance Exhibition | About');
 ?>
@@ -14,7 +16,7 @@ render_header('about', 'Global Alliance Exhibition | About');
         <h1 class="page-title">Why this exhibition exists</h1>
 
         <div class="split">
-            <?php foreach ($about['mission_cards'] as $index => $item): ?>
+            <?php foreach ($missionCards as $index => $item): ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true">
                         <?php
@@ -33,7 +35,7 @@ render_header('about', 'Global Alliance Exhibition | About');
 <section class="section section-muted">
     <div class="container">
         <h2 class="section-title">Organizer biography</h2>
-        <?php foreach ($about['biography_cards'] as $item): ?>
+        <?php foreach ($biographyCards as $item): ?>
             <article class="card">
                 <span class="icon-badge" aria-hidden="true"><?= svg_icon('user') ?></span>
                 <h3><?= h($item['title']) ?></h3>

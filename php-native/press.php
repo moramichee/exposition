@@ -5,6 +5,8 @@ declare(strict_types=1);
 require __DIR__ . '/includes/bootstrap.php';
 
 $press = app_content()['press'];
+$partnerCards = active_items($press['partner_cards']);
+$resourceCards = active_items($press['resource_cards']);
 
 render_header('press', 'Global Alliance Exhibition | Press & Media');
 ?>
@@ -14,7 +16,7 @@ render_header('press', 'Global Alliance Exhibition | Press & Media');
         <h1 class="page-title">Media visibility and credibility assets</h1>
 
         <div class="partner-grid">
-            <?php foreach ($press['partner_cards'] as $index => $item): ?>
+            <?php foreach ($partnerCards as $index => $item): ?>
                 <article class="partner-card">
                     <span class="icon-badge" aria-hidden="true"><?= svg_icon($index % 2 === 0 ? 'plane' : 'shield') ?></span>
                     <span class="partner-logo"><?= h($item['title']) ?></span>
@@ -24,7 +26,7 @@ render_header('press', 'Global Alliance Exhibition | Press & Media');
         </div>
 
         <div class="split">
-            <?php foreach ($press['resource_cards'] as $index => $item): ?>
+            <?php foreach ($resourceCards as $index => $item): ?>
                 <?php $lines = multiline_lines($item['extra_content'] ?? null); ?>
                 <article class="card">
                     <span class="icon-badge" aria-hidden="true"><?= svg_icon($index % 2 === 0 ? 'document' : 'shield') ?></span>
